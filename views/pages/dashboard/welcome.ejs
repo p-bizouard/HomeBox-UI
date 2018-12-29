@@ -1,0 +1,74 @@
+<div id="welcome">
+  <div class="container">
+    <h1>Accueil</h1>
+    <hr/>
+<!--     <div class="buttons">
+      <button class="btn btn-outline-info ml-2" @click="clickOpenExampleModalButton()">Open a modal</button>
+    </div>  -->
+    <template v-if="temperature">
+      <p><i class="fa fa-circle" v-bind:class="{ 'text-success': temperature.value>20 && temperature.value<23, 'text-danger': temperature.value<=20 || temperature.value>=23 }"></i> Température : {{ temperature.value }}°C</p>  
+    </template>
+    <template v-if="humidity">
+      <p><i class="fa fa-circle" v-bind:class="{ 'text-success': humidity.value<60, 'text-warning': humidity.value>=60 && humidity.value<70, 'text-danger': humidity.value>=70 }"></i> Humidité : {{ humidity.value }}%</p>  
+    </template>
+
+    <h2>Appareils :</h2>
+    <ul v-if="devices" class="list list-unstyled">
+      <li v-for="device in devices"><i class="fa fa-circle" v-bind:class="{ 'text-success': device.online }"></i> {{ device.name }} 
+        <span v-if="device.lastUp && !device.online">Dernier up : {{ moment.utc(device.lastUp.createdAt).fromNow() }}</li>
+    </ul>
+
+    <h2>Membres :</h2>
+    <ul v-if="persons" class="list list-unstyled">
+      <li v-for="person in persons" v-if="person.lastLocationHistory"><i class="fa fa-circle" v-bind:class="{ 'text-success': !person.lastLocationHistory.transit }"></i> {{ person.name }}
+        <ul class="list" v-if="person.lastLocationHistory.transit">
+          <li>Parti de {{ person.lastLocationHistory.currentLocation }} {{ moment.utc(person.lastLocationHistory.currentLocationExited).fromNow() }}</li>
+          <li>Arrivé à {{ person.lastLocationHistory.lastLocation }} {{ moment.utc(person.lastLocationHistory.lastLocationEntered).fromNow() }}</li>
+        </ul>
+        <ul class="list"v-if="!person.lastLocationHistory.transit">
+          <li>Arrivé à {{ person.lastLocationHistory.currentLocation }} {{ moment.utc(person.lastLocationHistory.currentLocationEntered).fromNow() }}</li>
+          <li>Parti de {{ person.lastLocationHistory.lastLocation }} {{ moment.utc(person.lastLocationHistory.lastLocationExited).fromNow() }}</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h2>Actions :</h2>
+    <dehumidifier></dehumidifier>
+    <br />
+    <vacuum></vacuum>
+    <br />
+    <lamp></lamp>
+    <br />
+    <noel></noel>
+    <br />
+
+    <h2>Webcams :</h2>
+    <ul v-if="webcamsUrl" class="list list-unstyled">
+      <li v-for="webcamUrl in webcamsUrl">
+        <img :src="webcamUrl" style="width:100%;max-width:100%"/>
+      </li>
+    </ul>
+
+  </div>
+
+  <router-view></router-view>
+
+  <!--  ╔═╗═╗ ╦╔═╗╔╦╗╔═╗╦  ╔═╗  ┌┬┐┌─┐┌┬┐┌─┐┬
+        ║╣ ╔╩╦╝╠═╣║║║╠═╝║  ║╣   ││││ │ ││├─┤│
+        ╚═╝╩ ╚═╩ ╩╩ ╩╩  ╩═╝╚═╝  ┴ ┴└─┘─┴┘┴ ┴┴─┘  -->
+  <modal class="example-modal" v-if="modal==='example'" @close="closeExampleModal()" v-cloak>
+    <div class="modal-header">
+      <h2 class="modal-title">Example modal</h2>
+      <p>At your leisure, please peruse this excerpt from a whale of a tale.</p>
+      <hr/>
+      <button type="button" class="modal-close-button" data-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">.
+    </div>
+    <div class="modal-footer flex-row-reverse justify-content-between">
+      <button type="button" data-dismiss="modal" class="btn btn-info">Close</button>
+      <button type="button" data-dismiss="modal" class="btn btn-outline-info">Cancel</button>
+    </div>
+  </modal>
+</div>
+<%- /* Expose locals as `window.SAILS_LOCALS` :: */ exposeLocalsToBrowser() %>
