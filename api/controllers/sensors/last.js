@@ -8,12 +8,11 @@ module.exports = {
 
 
   fn: async function (inputs) {      
-    var lastHumiditySensor = await HumiditySensor.find({sort: 'createdAt DESC', limit: 1});
-    var lastTemperatureSensor = await TemperatureSensor.find({sort: 'createdAt DESC', limit: 1});
+    var lastSensorHistory = await TemperatureHumiditySensorHistory.find({sort: 'createdAt DESC', limit: 1});
 
     return {
-      'temperature': lastTemperatureSensor[0],
-      'humidity': lastHumiditySensor[0]
+      'temperature': lastSensorHistory[0].temperature,
+      'humidity': lastSensorHistory[0].humidity
     };
   }
 };

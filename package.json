@@ -20,7 +20,7 @@
     "sails-hook-sockets": "^1.5.5",
     "sails-migrations": "^2.1.0",
     "sails-mysql": "^1.0.1",
-    "tuyapi": "github:codetheweb/tuyapi"
+    "tuyapi": "git://github.com/codetheweb/tuyapi"
   },
   "devDependencies": {
     "@sailshq/eslint": "^4.19.3",
