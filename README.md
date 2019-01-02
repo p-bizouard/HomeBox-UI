@@ -5,7 +5,7 @@
 git clone https://github.com/p-bizouard/HomeBox-UI.git
 ```
 
-## Configure
+## Configure config/local.js
 ```js
 module.exports = {
   homeApiBaseUrl: 'http://localhost:8081/',
