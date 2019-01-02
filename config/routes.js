@@ -57,6 +57,8 @@ module.exports.routes = {
   'POST /api/v1/automation/vacuum':    { action: 'automation/vacuum' },
   'POST /api/v1/automation/rf433':    { action: 'automation/rf433' },
 
+  '/api/v1/webcams/refresh':                           { action: 'webcams/refresh' },
+  
   '/api/v1/devices/refresh':                           { action: 'devices/refresh' },
   '/api/v1/devices/last':                           { action: 'devices/last' },
   

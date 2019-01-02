@@ -25,9 +25,12 @@ module.exports = {
       {
         request.get(device.url, async function (error, response, body) {
           if (!error && response.statusCode == 200) {
-            var content = JSON.parse(body);
-
-            console.log(content);
+            try {
+              var content = JSON.parse(body);
+            } catch (e) {
+              console.error('Invalid JSON data for [' + sensor.name + '] [' + sensor.url + '] : ', body);
+              return ;
+            }
 
             await DeviceHistory.create({
               device: device.id,

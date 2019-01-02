@@ -8,7 +8,7 @@
 
     <h2>Sondes :</h2>
     <div v-if="temperatureHumiditySensors" v-for="sensor in temperatureHumiditySensors">
-      <h4>{{ sensor.name }}</h4>
+      <h4>{{ sensor.name }} <small v-if="moment().diff(sensor.history.createdAt, 'minutes') > 10"><i class="fa fa-circle text-danger"></i> {{ moment.utc(sensor.history.createdAt).fromNow() }}</small></h4>
       <template v-if="sensor.history">
         <p><i class="fa fa-circle" v-bind:class="{ 'text-success': sensor.history.temperature>20 && sensor.history.temperature<23, 'text-danger': sensor.history.temperature<=20 || sensor.history.temperature>=23 }"></i> Température : {{ sensor.history.temperature }}°C</p>  
       </template>

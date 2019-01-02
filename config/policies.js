@@ -19,8 +19,9 @@ module.exports.policies = {
   'deliver-contact-form-message': true,
   'sensors/refresh': true,
   'devices/refresh': true,
+  'webcams/refresh': true,
   'person/location': true,
-  'automation/plug': true,
-  'automation/vacuum': true,
+  // 'automation/plug': true,
+  // 'automation/vacuum': true,
 
 };

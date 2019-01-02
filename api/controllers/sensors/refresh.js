@@ -20,8 +20,6 @@ module.exports = {
     list.forEach(function(sensor) {
       request.get(sensor.url, async function (error, response, body) {
         if (!error && response.statusCode == 200) {
-          console.log('Body of [' + sensor.name + '] [' + sensor.url + '] : ', body);
-          
           try {
             var content = JSON.parse(body);
           } catch (e) {
@@ -29,7 +27,7 @@ module.exports = {
             return ;
           }
 
-          console.info('Temperature / Humidity : ', content);
+          // console.info('Temperature / Humidity : ', content);
 
           let minuteStart = new Date();
           minuteStart.setSeconds(0, 0);
