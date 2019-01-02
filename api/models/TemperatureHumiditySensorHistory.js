@@ -13,12 +13,12 @@ module.exports = {
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
     temperature: {
-      type: 'float',
+      type: 'number',
       required: true,
       example: '58.4'
     },
     humidity: {
-      type: 'float',
+      type: 'number',
       required: true,
       example: '58.4'
     },

@@ -5,12 +5,17 @@
 <!--     <div class="buttons">
       <button class="btn btn-outline-info ml-2" @click="clickOpenExampleModalButton()">Open a modal</button>
     </div>  -->
-    <template v-if="temperature">
-      <p><i class="fa fa-circle" v-bind:class="{ 'text-success': temperature.value>20 && temperature.value<23, 'text-danger': temperature.value<=20 || temperature.value>=23 }"></i> Température : {{ temperature.value }}°C</p>  
-    </template>
-    <template v-if="humidity">
-      <p><i class="fa fa-circle" v-bind:class="{ 'text-success': humidity.value<60, 'text-warning': humidity.value>=60 && humidity.value<70, 'text-danger': humidity.value>=70 }"></i> Humidité : {{ humidity.value }}%</p>  
-    </template>
+
+    <h2>Sondes :</h2>
+    <div v-if="temperatureHumiditySensors" v-for="sensor in temperatureHumiditySensors">
+      <h4>{{ sensor.name }}</h4>
+      <template v-if="sensor.history">
+        <p><i class="fa fa-circle" v-bind:class="{ 'text-success': sensor.history.temperature>20 && sensor.history.temperature<23, 'text-danger': sensor.history.temperature<=20 || sensor.history.temperature>=23 }"></i> Température : {{ sensor.history.temperature }}°C</p>  
+      </template>
+      <template v-if="sensor.history">
+        <p><i class="fa fa-circle" v-bind:class="{ 'text-success': sensor.history.humidity<60, 'text-warning': sensor.history.humidity>=60 && sensor.history.humidity<70, 'text-danger': sensor.history.humidity>=70 }"></i> Humidité : {{ sensor.history.humidity }}%</p>  
+      </template>
+    </div>
 
     <h2>Appareils :</h2>
     <ul v-if="devices" class="list list-unstyled">

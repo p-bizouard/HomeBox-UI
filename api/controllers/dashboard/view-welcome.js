@@ -19,6 +19,7 @@ module.exports = {
 
   fn: async function(req){
     this.res.locals.webcamsUrl = sails.config.webcamsUrl;
+    this.res.locals.webcamsBaseUrl = sails.config.webcamsBaseUrl;
     this.res.locals.homeApiBaseUrl = sails.config.homeApiBaseUrl;
     return {};
 

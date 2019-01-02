@@ -20,7 +20,14 @@ module.exports = {
     list.forEach(function(sensor) {
       request.get(sensor.url, async function (error, response, body) {
         if (!error && response.statusCode == 200) {
-          var content = JSON.parse(body);
+          console.log('Body of [' + sensor.name + '] [' + sensor.url + '] : ', body);
+          
+          try {
+            var content = JSON.parse(body);
+          } catch (e) {
+            console.error('Invalid JSON data for [' + sensor.name + '] [' + sensor.url + '] : ', body);
+            return ;
+          }
 
           console.info('Temperature / Humidity : ', content);
 
@@ -45,7 +52,7 @@ module.exports = {
           });
         }
         else
-          console.error(error);
+          console.error('Une erreur s\'est produite lors de la récupération des informations du sensor [' + sensor.name + '] :', error);
       });
     });
   }

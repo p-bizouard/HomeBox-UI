@@ -4,8 +4,7 @@ parasails.registerPage('welcome', {
   //  ╩╝╚╝╩ ╩ ╩╩ ╩╩═╝  ╚═╝ ╩ ╩ ╩ ╩ ╚═╝
   data: {
     moment: moment,
-    temperature: null,
-    humidity: null,
+    temperatureHumiditySensors: [],
     devices: null,
     persons: null,
     modal: '',
@@ -83,15 +82,14 @@ parasails.registerPage('welcome', {
       var d = new Date();
 
       vm.webcamsUrl = [];
-      window.SAILS_LOCALS.webcamsUrl.forEach(function(webcamUrl) {
-        vm.webcamsUrl.push(webcamUrl +'?' + d.getTime());
-      });
+      for (var i = 0; i < window.SAILS_LOCALS.webcamsUrl.length; i++) {
+        vm.webcamsUrl.push(this.webcamsBaseUrl + (i + 1) + '.jpg?' + d.getTime());
+      };
     },
     getSensors() {
       var vm = this;
       io.socket.get('/api/v1/sensors/last', function(result) {
-        vm.temperature = result.temperature;
-        vm.humidity = result.humidity
+        vm.temperatureHumiditySensors = result;
       });
     },
     getDevices() {
