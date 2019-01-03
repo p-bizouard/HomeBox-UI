@@ -7,7 +7,7 @@
     </div>  -->
 
     <h2>Sondes :</h2>
-    <div v-if="temperatureHumiditySensors" v-for="sensor in temperatureHumiditySensors">
+    <div v-if="temperatureHumiditySensors && sensor.history" v-for="sensor in temperatureHumiditySensors">
       <h4>{{ sensor.name }} <small v-if="moment().diff(sensor.history.createdAt, 'minutes') > 10"><i class="fa fa-circle text-danger"></i> {{ moment.utc(sensor.history.createdAt).fromNow() }}</small></h4>
       <template v-if="sensor.history">
         <p><i class="fa fa-circle" v-bind:class="{ 'text-success': sensor.history.temperature>20 && sensor.history.temperature<23, 'text-danger': sensor.history.temperature<=20 || sensor.history.temperature>=23 }"></i> Température : {{ sensor.history.temperature }}°C</p>  
@@ -19,7 +19,7 @@
 
     <h2>Appareils :</h2>
     <ul v-if="devices" class="list list-unstyled">
-      <li v-for="device in devices"><i class="fa fa-circle" v-bind:class="{ 'text-success': device.online }"></i> {{ device.name }} 
+      <li v-for="device in orderedDevices"><i class="fa fa-circle" v-bind:class="{ 'text-success': device.online }"></i> {{ device.name }} 
         <span v-if="device.lastUp && !device.online">Dernier up : {{ moment.utc(device.lastUp.createdAt).fromNow() }}</li>
     </ul>
 

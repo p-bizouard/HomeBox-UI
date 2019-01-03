@@ -6,6 +6,6 @@
   "watch_options": {
     "followSymlinks": false
   },
-  "cwd": "/home/pi/homebox-ui",
+  "cwd": "/home/pi/homebox-ui/",
   "log_date_format": "YYYY-MM-DD HH:mm"
 }

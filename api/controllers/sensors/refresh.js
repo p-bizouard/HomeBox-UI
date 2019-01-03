@@ -27,7 +27,7 @@ module.exports = {
             return ;
           }
 
-          // console.info('Temperature / Humidity : ', content);
+          // sails.log('Temperature / Humidity : ', content);
 
           let minuteStart = new Date();
           minuteStart.setSeconds(0, 0);
@@ -39,7 +39,7 @@ module.exports = {
 
           if (testHistory.length)
           {
-            console.info('Sensor already found four current minute.');
+            sails.log('Sensor already found four current minute.');
             return ;
           }
           

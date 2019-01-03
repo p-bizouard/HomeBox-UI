@@ -31,7 +31,7 @@ module.exports = {
     var device = inputs.device.toLowerCase();
     var action = inputs.action.toLowerCase();
 
-    console.info('Device [' + device + '] set to [' + action + ']');
+    sails.log('Device [' + device + '] set to [' + action + ']');
     apiParams = 'plug/' + device;
     request.post(sails.config.homeApiBaseUrl + apiParams, {form: {status: (action == 'enable' ? 'on' : 'off')}}, async function (error, response, body) {
       if (!error && response.statusCode == 200) {

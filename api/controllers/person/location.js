@@ -18,7 +18,7 @@ module.exports = {
     
     // Compatibilité IFTTT+Stringify
     var statut = this.req.body.value.toLowerCase().replace('left', 'exited').replace('arrived', 'entered');
-    console.info('Location update : ', statut);
+    sails.log('Location update : ', statut);
 
     // Si la personne n'est pas trouvée
     var person = await Person.findOne({id: this.req.param('person')});
@@ -46,7 +46,7 @@ module.exports = {
           && lastLocationHistory.currentLocation == this.req.body.location
       )
       {
-        console.info('Annulation de la demande : doublon.');
+        sails.log('Annulation de la demande : doublon.');
         return ;
       }
     }
@@ -128,7 +128,7 @@ module.exports = {
       if (sails.config.googleHome)
       {
         googleHomeSay = person.name + ' est ' + (statut == 'entered' ? 'arrivé' : 'partie') + ' ' + location;
-        console.info('Google Home : ' + googleHomeSay);
+        sails.log('Google Home : ' + googleHomeSay);
         request.post(sails.config.homeApiBaseUrl + 'google-home', {form: {say: googleHomeSay}}); 
       }
     }

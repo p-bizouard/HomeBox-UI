@@ -27,7 +27,12 @@ parasails.registerPage('welcome', {
 
     webcamsUrl: [],
   },
-
+  computed: {
+    orderedDevices: function () {
+      return _.sortByOrder(this.devices, 'name')
+    }
+  },
+  
   //  ╦  ╦╔═╗╔═╗╔═╗╦ ╦╔═╗╦  ╔═╗
   //  ║  ║╠╣ ║╣ ║  ╚╦╝║  ║  ║╣
   //  ╩═╝╩╚  ╚═╝╚═╝ ╩ ╚═╝╩═╝╚═╝
