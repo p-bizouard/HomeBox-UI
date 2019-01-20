@@ -33,5 +33,8 @@ module.exports = {
 };
 ```
 
-## Import database structure
-@Todo
+## Todo
+- [ ] Callback de configuration lors d'entrée ou de sortie de personnes
+- [ ] Option pour automatiquement lancer ou éteindre un plugDevice lorsqu'au moins une personne arrive à "maison" après une arrivée
+- [ ] Option pour automatiquement lancer ou éteindre un plugDevice lorsqu'aucune personne n'est à "maison" après un départ
+- [ ] Dump de la stucture SQL
