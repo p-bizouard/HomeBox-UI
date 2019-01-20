@@ -34,10 +34,7 @@ module.exports = {
     apiParams = 'rf433/' + device;
     request.post(sails.config.homeApiBaseUrl + apiParams, {form: {status: (action == 'enable' ? 'on' : 'off')}}, async function (error, response, body) {
       if (!error && response.statusCode == 200) {
-        console.log(body);
-
-        if (sails.config.googleHome)
-          request.post(sails.config.homeApiBaseUrl + 'google-home', {form: {say: await sails.helpers.googleHomeTranslate(device + ' ' + (action == 'enable' ? 'allumée' : 'éteinte'))}});
+        sails.log(body);
       }
       else
         console.error(error);

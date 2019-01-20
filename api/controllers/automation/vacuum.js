@@ -27,7 +27,7 @@ module.exports = {
       sails.log('Vacuum set to ' + action)
       request({url: sails.config.homeApiBaseUrl + 'vacuum/status/' + (action == 'enable' ? 'on' : 'off')}, async function (error, response, body) {
         if (!error && response.statusCode == 200) {
-          console.log(body);
+          sails.log(body);
 
           devicesRefreshController.fn();
 

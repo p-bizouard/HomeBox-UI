@@ -23,7 +23,7 @@ module.exports = {
           try {
             var content = JSON.parse(body);
           } catch (e) {
-            console.error('Invalid JSON data for [' + sensor.name + '] [' + sensor.url + '] : ', body);
+            sails.log.error('Invalid JSON data for [' + sensor.name + '] [' + sensor.url + '] : ', body);
             return ;
           }
 
@@ -39,7 +39,13 @@ module.exports = {
 
           if (testHistory.length)
           {
-            sails.log('Sensor already found four current minute.');
+            sails.log('Sensor already found for current minute.');
+            return ;
+          }
+
+          if (content.temperature > 30 || content.temperature < 10 || content.humidity > 100 || content.humidity < 30)
+          {
+            sails.log.error('Sensor [' + sensor.name + '] failed with data :', content);
             return ;
           }
           
@@ -47,10 +53,11 @@ module.exports = {
             temperature: content.temperature,
             humidity: content.humidity,
             temperaturehumiditysensor: sensor.id
-          });
+          }); 
+
         }
         else
-          console.error('Une erreur s\'est produite lors de la récupération des informations du sensor [' + sensor.name + '] :', error);
+          sails.log.error('Sensor [' + sensor.name + '] failed with error :', error);
       });
     });
   }

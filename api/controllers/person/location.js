@@ -14,7 +14,9 @@ module.exports = {
 
   fn: async function (req, res, next) {
 
-    console.log('Statut brut : ', this.req.body);
+    now = new Date();
+
+    sails.log('Statut brut : ', this.req.body);
     
     // Compatibilité IFTTT+Stringify
     var statut = this.req.body.value.toLowerCase().replace('left', 'exited').replace('arrived', 'entered');
@@ -40,33 +42,46 @@ module.exports = {
     {
       lastLocationHistory.id = undefined;
 
-      // Si la dernière localisation est la localisation en cours, on ne fait rien, plutôt que de créer un doublon
+      // Si la dernière localisation est la localisation en cours et que le statut est identique, on ne fait rien
       if ((
-          (statut == 'entered' && !lastLocationHistory.transit) || (statut == 'entered' && !lastLocationHistory.transit))
+          (statut == 'entered' && !lastLocationHistory.transit) || (statut == 'exited' && lastLocationHistory.transit))
           && lastLocationHistory.currentLocation == this.req.body.location
       )
       {
         sails.log('Annulation de la demande : doublon.');
         return ;
       }
+
+      // Si la dernière localisation est la localisation en cours et qu'elle date de moins de 5 minutes
+      if ((
+          (statut == 'exited' && lastLocationHistory.transit) || (statut == 'entered' && lastLocationHistory.transit))
+          && lastLocationHistory.currentLocation == this.req.body.location
+          && ((now.getTime() - lastLocationHistory.createdAt) / 1000 < 5 * 60)
+      )
+      {
+        sails.log('Annulation de la demande : doublon avec délai de [' + ((now.getTime() - lastLocationHistory.createdAt) / 1000) + ']');
+        return ;
+      }
     }
 
 
     var updateValues = JSON.parse(JSON.stringify(lastLocationHistory));
+    updateValues.createdAt = undefined;
+    updateValues.updatedAt = undefined;
     if (statut == 'entered') {
       // Si on arrive, on MAJ la dernière et la nouvelle localisation
       updateValues.lastLocationEntered = lastLocationHistory.currentLocationEntered;
       updateValues.lastLocationExited = lastLocationHistory.currentLocationExited;
       updateValues.lastLocation = lastLocationHistory.currentLocation;
 
-      updateValues.currentLocationEntered = new Date();
+      updateValues.currentLocationEntered = now;
       updateValues.currentLocationExited = 0;
       updateValues.currentLocation = this.req.body.location;
       
       updateValues.transit = false;
     } else if (statut == 'exited') {
       // Si on part on indique juste que l'on a quitté la dernièer localisation
-      updateValues.currentLocationExited = new Date();      
+      updateValues.currentLocationExited = now;      
       updateValues.transit = true;
     }
     else
@@ -75,7 +90,6 @@ module.exports = {
       return ;
     }
 
-    now = new Date();
     if (now.getHours() > 10)
     {
       var location = 'de ' + this.req.body.location;
@@ -125,7 +139,7 @@ module.exports = {
       //     console.error(error);
       // });
 
-      if (sails.config.googleHome)
+      if (now.getHours() > 10 && sails.config.googleHome)
       {
         googleHomeSay = person.name + ' est ' + (statut == 'entered' ? 'arrivé' : 'partie') + ' ' + location;
         sails.log('Google Home : ' + googleHomeSay);
@@ -147,25 +161,24 @@ module.exports = {
         oneHome = true;
     });
 
-    plugController.fn({
-      device: 'dehumidifier',
-      action: (oneHome ? 'disable' : 'enable') /// disable ... enable
-    });
+    // plugController.fn({
+    //   device: 'dehumidifier',
+    //   action: (oneHome ? 'disable' : 'enable') /// disable ... enable
+    // });
 
-    date = new Date();
-    if (date.getHours() > 13 && date.getDay() <= 5 && !oneHome && (this.req.body.location == 'Cachan' || this.req.body.location == 'École') && statut == 'exited')
+    if (now.getHours() > 13 && now.getDay() <= 5 && !oneHome && (this.req.body.location == 'Cachan' || this.req.body.location == 'École') && statut == 'exited')
     {
       // En semaine : si personne à la maison, et que l'une des personnes quitte le travail ou l'école après la pause du midi.
-      vacuumController.fn({
-        action: 'enable'
-      });
+      // vacuumController.fn({
+      //   action: 'enable'
+      // });
     }
-    if (date.getDay() >= 6 && !oneHome && this.req.body.location == 'Maison' && statut == 'exited')
+    if (now.getDay() >= 6 && !oneHome && this.req.body.location == 'Maison' && statut == 'exited')
     {
       // En semaine : si personne à la maison, et que l'une des personnes quitte la maison
-      vacuumController.fn({
-        action: 'enable'
-      });
+      // vacuumController.fn({
+      //   action: 'enable'
+      // });
     }
   }
 };

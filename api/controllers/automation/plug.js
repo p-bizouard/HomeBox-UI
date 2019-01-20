@@ -35,7 +35,7 @@ module.exports = {
     apiParams = 'plug/' + device;
     request.post(sails.config.homeApiBaseUrl + apiParams, {form: {status: (action == 'enable' ? 'on' : 'off')}}, async function (error, response, body) {
       if (!error && response.statusCode == 200) {
-        console.log('Retour du call api : ', body);
+        sails.log('Retour du call api : ', body);
         devicesRefreshController.fn();
       }
       else

@@ -171,7 +171,9 @@
     (function(){
       if (typeof bowser !== 'undefined') {
         moment.locale("fr");
-        console.log(moment.locale());
+        io.socket.on('disconnect', function() {
+          io.socket._raw.io._reconnection = true;
+        });
 
         // --------------------------------------------------------------------
         // Additional compatibility tips:
