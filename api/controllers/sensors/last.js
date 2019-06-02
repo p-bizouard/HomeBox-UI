@@ -13,7 +13,7 @@ module.exports = {
   fn: async function (inputs) {      
     var vm = this;
 
-    returnList = [];
+    let returnList = [];
     list = await TemperatureHumiditySensor.find();
     for (var i = 0; i < list.length; i++) {
       sensor = list[i];

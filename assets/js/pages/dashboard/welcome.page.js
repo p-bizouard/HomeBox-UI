@@ -94,6 +94,7 @@ parasails.registerPage('welcome', {
     getSensors() {
       var vm = this;
       io.socket.get('/api/v1/sensors/last', function(result) {
+console.log(result);
         vm.temperatureHumiditySensors = result;
       });
     },
