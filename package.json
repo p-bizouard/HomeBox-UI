@@ -10,7 +10,7 @@
     "@sailshq/socket.io-redis": "^5.2.0",
     "connect-redis": "^3.4.0",
     "express-session": "^1.15.6",
-    "moment": "^2.22.2",
+    "moment": "^2.29.2",
     "sails": "^1.1.0",
     "sails-db-migrate": "^1.5.0",
     "sails-hook-apianalytics": "^2.0.3",
